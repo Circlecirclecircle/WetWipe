@@ -6,6 +6,15 @@ namespace Core
 {
     public class Goods
     {
+        public string Title { get; set; }
+
+        public string RawTitle { get; set; }
+
+        /// <summary>
+        /// 这个好像是商品的唯一编号
+        /// </summary>
+        public long Nid { get; set; }
+
         /// <summary>
         /// 名字
         /// </summary>
