@@ -1,42 +1,39 @@
 ﻿using Core;
 using Ninject;
+using Ninject.Modules;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Reflection;
 
 namespace DI
 {
     public static class Ioc
     {
-        private static StandardKernel _kernel;
+        private static IReadOnlyKernel _readOnlyKernel;
 
         static Ioc()
         {
-            EnsureInitialized();
-            _kernel.Load(typeof(Ioc).Assembly);
+            KernelConfiguration configuration = new KernelConfiguration(GetModules());
+            configuration.Settings.Set("InjectAttribute", typeof(DependencyAttribute));
+
+            _readOnlyKernel = configuration.BuildReadonlyKernel();
         }
 
-        public static StandardKernel Kernel
+        private static INinjectModule[] GetModules()
         {
-            get
-            {
-                if (_kernel == null)
-                {
-                    EnsureInitialized();
-                }
+            Assembly assembly = Assembly.Load(new AssemblyName(typeof(DI.Ioc).Namespace));
+            INinjectModule[] modules = assembly.DefinedTypes
+                                        .Where(a => a.AsType().GetInterfaces().Contains(typeof(INinjectModule)))
+                                        .Select(a => (INinjectModule)Activator.CreateInstance(Type.GetType(a.FullName))).ToArray();
 
-                return _kernel;
-            }
+            return modules;
         }
 
-        public static void EnsureInitialized()
+        public static T Get<T>()
         {
-            if (_kernel == null)
-            {
-                _kernel = new StandardKernel();
-                _kernel.Settings.Set("InjectAttribute", typeof(DependencyAttribute)); //修改属性注入
-                _kernel.Settings.InjectNonPublic = true;
-            }
+            return _readOnlyKernel.Get<T>();
         }
     }
 }
