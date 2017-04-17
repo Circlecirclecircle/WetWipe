@@ -53,9 +53,10 @@ namespace Reptile
                     }
 
                     shop.Nick = auction["nick"].ToString();
-                    shop.UserId = Convert.ToInt64(auction["user_id"]);
 
-
+                    goods.Title = auction["title"].ToString();
+                    goods.RawTitle = auction["raw_title"].ToString();
+                    
                 }
 
                 
