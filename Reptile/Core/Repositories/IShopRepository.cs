@@ -6,7 +6,7 @@ using Core;
 
 namespace Core.Repositories
 {
-    public interface IShopRepository:IQueryable<Shop>
+    public interface IShopRepository:IQueryable<Shop>,ICommand<Shop>
     {
     }
 }

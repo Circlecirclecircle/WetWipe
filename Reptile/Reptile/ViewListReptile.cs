@@ -31,30 +31,28 @@ namespace Reptile
 
                 foreach (var auction in auctions)
                 {
+                    Shop shop = new Shop();
+                    Goods goods = new Goods();
 
-                    long nid = Convert.ToInt64(auction["nid"]);
-                    long userId = Convert.ToInt64(auction["user_id"]);
-
-                    Shop shop = shopRepository.FirstOrDefault(a => a.UserId == userId);
-                    Goods goods = goodsRepository.FirstOrDefault(a => a.Nid == nid);
-
-                    if (shop == null) //原来不存在  就添加一个
-                    {
-                        shop = new Shop();
-                        shop.UserId = userId;
-                    }
-
-                    if (goods == null) //原来不存在就 添加一个
-                    {
-                        goods = new Goods();
-                        goods.Nid = nid;
-                    }
-
+                    shop.UserId = Convert.ToInt64(auction["user_id"]);
                     shop.Nick = auction["nick"].ToString();
 
+                    goods.Nid = Convert.ToInt64(auction["nid"]);
                     goods.Title = auction["title"].ToString();
                     goods.RawTitle = auction["raw_title"].ToString();
+                    goods.DetailUrl = auction["detail_url"].ToString();
+                    
 
+                    //不存在  就添加 
+                    if(shopRepository.FirstOrDefault(a=>a.UserId==shop.UserId)==null)
+                    {
+                        shopRepository.Add(shop);
+                    }
+
+                    if(goodsRepository.FirstOrDefault(a=>a.Nid==goods.Nid)==null)
+                    {
+                        goodsRepository.Add(goods);
+                    }
                 }
 
 

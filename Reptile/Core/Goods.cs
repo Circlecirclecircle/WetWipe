@@ -10,6 +10,10 @@ namespace Core
 
         public string RawTitle { get; set; }
 
+        /// <summary>
+        /// 商品详情页面
+        /// </summary>
+        public string DetailUrl { get; set; }
 
         /// <summary>
         /// 这个好像是商品的唯一编号
