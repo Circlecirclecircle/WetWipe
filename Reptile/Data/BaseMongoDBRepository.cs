@@ -6,14 +6,86 @@ using System.Linq.Expressions;
 using System.Text;
 using MongoDB.Driver.Linq;
 using MongoDB.Driver;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Data
 {
-    public abstract class BaseMongoDBRepository<T> : MongoQueryProvider, IMongoDBRepository
+    public abstract class BaseMongoDBRepository<T> :IMongoDBRepository<T>
     {
+        public Type ElementType => _Queryable.ElementType;
 
-        public string ConnectionStr { get => throw new NotImplementedException();}
-        public string DBName { get => throw new NotImplementedException();}
-        public string CollectionName { get => throw new NotImplementedException();}
+        public Expression Expression => _Queryable.Expression;
+
+        public IQueryProvider Provider => _Queryable.Provider;
+
+        public IMongoClient Client { get; }
+
+        public IMongoDatabase Database { get; }
+
+        public IMongoCollection<T> Collection { get; }
+
+        private IMongoQueryable<T> _Queryable { get; }
+
+        public BaseMongoDBRepository()
+        {
+            Client = new MongoClient(MongoDBConfig.DefaultClientConnection);
+            Database = Client.GetDatabase(MongoDBConfig.DefaultDBName);
+            Collection = Database.GetCollection<T>(nameof(T));
+
+            _Queryable = Collection.AsQueryable();
+        }
+
+        public BaseMongoDBRepository(string collectionName,string dbName,string clientConnection)
+        {
+            Client = new MongoClient(clientConnection);
+            Database = Client.GetDatabase(dbName);
+            Collection = Database.GetCollection<T>(collectionName);
+
+            _Queryable = Collection.AsQueryable();
+        }
+
+        
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            return _Queryable.GetEnumerator();
+        }
+
+        public QueryableExecutionModel GetExecutionModel()
+        {
+            return _Queryable.GetExecutionModel();
+        }
+
+        public IAsyncCursor<T> ToCursor(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return _Queryable.ToCursor();
+        }
+
+        public Task<IAsyncCursor<T>> ToCursorAsync(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return _Queryable.ToCursorAsync();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return _Queryable.GetEnumerator();
+        }
+
+        public virtual void Add(T model)
+        {
+            Collection.InsertOne(model);
+        }
+
+        public void Remove(T model)
+        {
+            //通过限制 T 是继承一个接口  这个接口 一定有一个_id 属性 ，这样的话就可以删除了
+            Collection.DeleteOne(model);
+        }
+
+        public void Save(T model)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

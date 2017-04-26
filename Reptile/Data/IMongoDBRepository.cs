@@ -2,24 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Core.Repositories;
+using MongoDB.Driver;
 
 namespace Data
 {
-    public interface IMongoDBRepository: IMongoQueryable
+    public interface IMongoDBRepository<T>: IMongoQueryable<T>,ICommand<T>
     {
-        /// <summary>
-        /// 连接字符串
-        /// </summary>
-        string ConnectionStr { get;}
-
-        /// <summary>
-        /// 数据库名字
-        /// </summary>
-        string DBName { get;}
-
-        /// <summary>
-        /// 集合名字
-        /// </summary>
-        string CollectionName { get;}
+        IMongoClient Client { get; }
+        IMongoDatabase Database { get; }
+        IMongoCollection<T> Collection { get; }
     }
 }
