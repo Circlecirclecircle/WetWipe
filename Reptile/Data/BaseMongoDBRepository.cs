@@ -8,10 +8,11 @@ using MongoDB.Driver.Linq;
 using MongoDB.Driver;
 using System.Threading;
 using System.Threading.Tasks;
+using Core;
 
 namespace Data
 {
-    public abstract class BaseMongoDBRepository<T> :IMongoDBRepository<T>
+    public abstract class BaseMongoDBRepository<T,TIdType> :IMongoDBRepository<T> where T:IEntity<TIdType>
     {
         public Type ElementType => _Queryable.ElementType;
 
@@ -45,7 +46,6 @@ namespace Data
             _Queryable = Collection.AsQueryable();
         }
 
-        
 
         public IEnumerator<T> GetEnumerator()
         {
@@ -79,13 +79,16 @@ namespace Data
 
         public void Remove(T model)
         {
-            //通过限制 T 是继承一个接口  这个接口 一定有一个_id 属性 ，这样的话就可以删除了
-            Collection.DeleteOne(model);
+            var filter = Builders<T>.Filter.Eq("_id",model.Id);
+
+            Collection.DeleteOne(filter);
         }
 
         public void Save(T model)
         {
-            throw new NotImplementedException();
+            var filter = Builders<T>.Filter.Eq("_id",model.Id);
+
+            Collection.ReplaceOne(filter,model);
         }
     }
 }
