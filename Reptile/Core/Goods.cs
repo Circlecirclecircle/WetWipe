@@ -4,8 +4,10 @@ using System.Text;
 
 namespace Core
 {
-    public class Goods
+    public class Goods:IEntity<long>
     {
+        long IEntity<long>.Id=>Nid;
+
         public string Title { get; set; }
 
         public string RawTitle { get; set; }
@@ -69,5 +71,7 @@ namespace Core
         /// 商品标签
         /// </summary>
         public string[] Labels { get; set; }
+
+        
     }
 }

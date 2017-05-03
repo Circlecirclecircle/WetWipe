@@ -4,8 +4,10 @@ using System.Text;
 
 namespace Core
 {
-    public class Shop
+    public class Shop:IEntity<long>
     {
+        long IEntity<long>.Id => UserId;
+
         /// <summary>
         /// 商店名字
         /// </summary>
