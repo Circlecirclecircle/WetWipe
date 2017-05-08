@@ -23,7 +23,11 @@ namespace Reptile
 
             for (int i = 0; i < maxRequestCount; i++)
             {
+                Console.WriteLine("Request Count:{0}",i);
+
                 string jsonStr = HttpHelper.Request(UrlHelper.NextPageUrl(i));
+
+                jsonStr=jsonStr.Trim().Replace("jsonp926(","").TrimEnd(';').TrimEnd(')');
 
                 JObject jobject = JObject.Parse(jsonStr);
 
@@ -34,10 +38,10 @@ namespace Reptile
                     Shop shop = new Shop();
                     Goods goods = new Goods();
 
-                    shop.UserId = Convert.ToInt64(auction["user_id"]);
+                    shop.UserId = Convert.ToInt64(auction["user_id"].ToString());
                     shop.Nick = auction["nick"].ToString();
 
-                    goods.Nid = Convert.ToInt64(auction["nid"]);
+                    goods.Nid = Convert.ToInt64(auction["nid"].ToString());
                     goods.Title = auction["title"].ToString();
                     goods.RawTitle = auction["raw_title"].ToString();
                     goods.DetailUrl = auction["detail_url"].ToString();

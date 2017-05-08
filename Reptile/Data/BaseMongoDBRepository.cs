@@ -9,6 +9,7 @@ using MongoDB.Driver;
 using System.Threading;
 using System.Threading.Tasks;
 using Core;
+using MongoDB.Bson.Serialization;
 
 namespace Data
 {
@@ -30,15 +31,20 @@ namespace Data
 
         public BaseMongoDBRepository()
         {
-            Client = new MongoClient(MongoDBConfig.DefaultClientConnection);
+            ClassMapRegisterClassMap.Load();
+
+            Client = MongoDBConfig.DefaultMongoClient;
             Database = Client.GetDatabase(MongoDBConfig.DefaultDBName);
-            Collection = Database.GetCollection<T>(nameof(T));
+            Collection = Database.GetCollection<T>(typeof(T).Name);
 
             _Queryable = Collection.AsQueryable();
         }
 
+        [Obsolete]
         public BaseMongoDBRepository(string collectionName,string dbName,string clientConnection)
         {
+            ClassMapRegisterClassMap.Load();
+
             Client = new MongoClient(clientConnection);
             Database = Client.GetDatabase(dbName);
             Collection = Database.GetCollection<T>(collectionName);
