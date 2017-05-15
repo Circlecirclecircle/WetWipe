@@ -3,26 +3,27 @@ using System.Collections.Generic;
 using System.Text;
 using System.Net;
 using System.IO;
+using System.Net.Http;
 
-namespace Reptile
+namespace Common
 {
     public class HttpHelper
     {
-        public static string Request(string url)
+        public string Request(string url)
         {
             HttpWebResponse response = _Request(url);
             //这里要把HttpCode 为302 的Response 处理一下
 
             string result = null;
-            switch(response.StatusCode)
+            switch (response.StatusCode)
             {
                 case HttpStatusCode.OK:
-                    result=ReadResponse(response);
+                    result = ReadResponse(response);
                     break;
                 case HttpStatusCode.Redirect: //重定向
                     int i = 0;
                     HttpWebResponse tempResponse = response;
-                    while(i<10)
+                    while (i < 10)
                     {
                         string u = tempResponse.Headers["Location"];
                         tempResponse = _Request(u);
@@ -44,21 +45,21 @@ namespace Reptile
             return result;
         }
 
-        private static HttpWebResponse _Request(string url)
+        private HttpWebResponse _Request(string url)
         {
             HttpWebRequest request = WebRequest.CreateHttp(url);
 
             //request.AllowAutoRedirect = true;
 
-            HttpWebResponse response =(HttpWebResponse)request.GetResponseAsync().Result;
+            HttpWebResponse response = (HttpWebResponse)request.GetResponseAsync().Result;
 
             return response;
         }
 
-        private static string ReadResponse(HttpWebResponse response)
+        private string ReadResponse(HttpWebResponse response)
         {
             string result = null;
-            using (Stream responseStream= response.GetResponseStream())
+            using (Stream responseStream = response.GetResponseStream())
             using (StreamReader reader = new StreamReader(responseStream))
             {
                 result = reader.ReadToEnd();
@@ -67,7 +68,7 @@ namespace Reptile
             return result;
         }
 
-        public static string GetRedirectUrl(string url)
+        public string GetRedirectUrl(string url)
         {
             var response = _Request(url);
 

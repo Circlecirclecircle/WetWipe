@@ -15,7 +15,26 @@ namespace Core
         /// <summary>
         /// 商品详情页面
         /// </summary>
-        public string DetailUrl { get; set; }
+        public string DetailUrl
+        {
+            get { return _detailUrl; }
+            set
+            {
+                switch (value.IndexOf("https:"))
+                {
+                    case 0: //在最前面
+                        _detailUrl = value;
+                        break;
+                    case -1: //没有找到
+                    default: //在其他地方
+                             //加上https
+                        _detailUrl = "https:" + value;
+                        break;
+                }
+            }
+        }
+
+        private string _detailUrl;
 
         /// <summary>
         /// 这个好像是商品的唯一编号
@@ -30,7 +49,9 @@ namespace Core
         /// <summary>
         /// 所属商店
         /// </summary>
-        public  Shop Shop { get; set; }
+        public Shop Shop { get; }
+
+        public long ShopUserId { get; set; }
 
         /// <summary>
         /// 价格

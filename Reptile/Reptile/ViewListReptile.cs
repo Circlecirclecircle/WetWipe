@@ -15,7 +15,7 @@ namespace Reptile
         {
             //检索列表数据，获取userId,nid,detailUrl
 
-            int maxRequestCount = 100;
+            int maxRequestCount = 10;
 
             IGoodsRepository goodsRepository = Ioc.Get<IGoodsRepository>();
             IShopRepository shopRepository = Ioc.Get<IShopRepository>();
@@ -44,7 +44,28 @@ namespace Reptile
                     goods.Nid = Convert.ToInt64(auction["nid"].ToString());
                     goods.Title = auction["title"].ToString();
                     goods.RawTitle = auction["raw_title"].ToString();
-                    goods.DetailUrl = auction["detail_url"].ToString();
+                    goods.DetailUrl = auction["detail_url"].ToString().Trim();
+
+                    //Uri detaiUrl = new Uri(goods.DetailUrl);
+                    //if(!detaiUrl.Host.Equals("item.taobao.com"))
+                    //{
+                    //    string currentUrl = goods.DetailUrl;
+                    //    int requestNum = 10;
+                    //    while(requestNum>0)
+                    //    {
+                    //        requestNum--;
+
+                    //        string tempUrl = HttpHelper.GetRedirectUrl(currentUrl);
+                    //        if(string.IsNullOrEmpty(tempUrl))
+                    //        {
+                    //            goods.DetailUrl = currentUrl;
+                    //            break;
+                    //        }
+
+                    //        currentUrl = tempUrl;
+                    //    }
+                    //}
+
                     
 
                     //不存在  就添加 
@@ -55,6 +76,7 @@ namespace Reptile
 
                     if(goodsRepository.FirstOrDefault(a=>a.Nid==goods.Nid)==null)
                     {
+                        goods.ShopUserId = shop.UserId;
                         goodsRepository.Add(goods);
                     }
                 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using MongoDB.Driver;
 using MongoDB.Bson;
+using System.Net;
 
 namespace Data
 {
@@ -16,7 +17,6 @@ namespace Data
 
             var collection = db.GetCollection<BsonDocument>("TestCollection");
 
-            
         }
     }
 }
