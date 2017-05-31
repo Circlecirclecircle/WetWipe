@@ -5,7 +5,7 @@ using System.Text;
 using Core.Repositories;
 using MongoDB.Driver;
 
-namespace Data
+namespace MongoData
 {
     public interface IMongoDBRepository<T>: IMongoQueryable<T>,ICommand<T>
     {

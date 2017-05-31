@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Core.Repositories;
-using Data.MongoDBRepositories;
+using MongoData.MongoDBRepositories;
 using Ninject.Modules;
 
 namespace DI.Modules

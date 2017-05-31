@@ -5,7 +5,7 @@ using MongoDB.Driver;
 using MongoDB.Bson;
 using System.Net;
 
-namespace Data
+namespace MongoData
 {
     public class Test
     {

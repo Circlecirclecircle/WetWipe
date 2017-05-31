@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.0
+VisualStudioVersion = 15.0.26430.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reptile", "Reptile\Reptile.csproj", "{3DDF51B8-99BB-4081-83D2-13E898C9110C}"
 EndProject
@@ -9,9 +9,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DI", "DI\DI.csproj", "{257923E4-4DB6-4E0E-AC29-6AE83B33C9F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "Data\Data.csproj", "{7A74314F-EAEE-4863-B824-7AA0D1473CAC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MongoData", "Data\MongoData.csproj", "{7A74314F-EAEE-4863-B824-7AA0D1473CAC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{CA79076D-639F-4A10-A061-BCBD2A7FCCA1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqliteData", "SqliteData\SqliteData.csproj", "{0CE7B774-767A-44E3-B5F8-D24F9B9E8B36}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{9ABD087D-32A7-4135-8767-D3729E792E7C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,8 +43,16 @@ Global
 		{CA79076D-639F-4A10-A061-BCBD2A7FCCA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA79076D-639F-4A10-A061-BCBD2A7FCCA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA79076D-639F-4A10-A061-BCBD2A7FCCA1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CE7B774-767A-44E3-B5F8-D24F9B9E8B36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CE7B774-767A-44E3-B5F8-D24F9B9E8B36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CE7B774-767A-44E3-B5F8-D24F9B9E8B36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CE7B774-767A-44E3-B5F8-D24F9B9E8B36}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7A74314F-EAEE-4863-B824-7AA0D1473CAC} = {9ABD087D-32A7-4135-8767-D3729E792E7C}
+		{0CE7B774-767A-44E3-B5F8-D24F9B9E8B36} = {9ABD087D-32A7-4135-8767-D3729E792E7C}
 	EndGlobalSection
 EndGlobal

@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Data.MongoDBRepositories
+namespace MongoData.MongoDBRepositories
 {
     public class GoodsRepository: BaseMongoDBRepository<Goods,long>,IGoodsRepository
     {

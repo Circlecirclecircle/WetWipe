@@ -4,13 +4,25 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using Core;
 
 namespace Reptile
 {
     internal class DetailUrlReptile
     {
+        private IHttpHelper _HttpHelper;
+        private IGoodsRepository _Goodsrepository;
+        private IShopRepository _ShopRepository;
+
+        public DetailUrlReptile()
+        {
+            _HttpHelper = Ioc.Get<IHttpHelper>();
+        }
+
         public void Do()
         {
+            //https://detailskip.taobao.com/service/getData/1/p1/item/detail/sib.htm?itemId=544648516961&sellerId=616143059&modules=dynStock,qrcode,viewer,price,contract,duty,xmpPromotion,delivery,upp,activity,fqg,zjys,couponActivity,soldQuantity,tradeContract&callback=onSibRequestSuccess
+
             IGoodsRepository goodsRepository = Ioc.Get<IGoodsRepository>();
             IShopRepository shopRepository = Ioc.Get<IShopRepository>();
 
@@ -28,10 +40,8 @@ namespace Reptile
                 var goods = goodsRepository.Skip(currentPageIndex*currentPageSize).Take(currentPageSize);
                 
                 foreach(var item in goods)
-                {
-                    //请求详细地址
-                    string url = item.DetailUrl.Contains("https:")?item.DetailUrl:"https:"+item.DetailUrl;
-                    string html = HttpHelper.Request(url);
+                { 
+                    //获取详细信息的Json
 
 
 

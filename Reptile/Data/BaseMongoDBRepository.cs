@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using Core;
 using MongoDB.Bson.Serialization;
 
-namespace Data
+namespace MongoData
 {
     public abstract class BaseMongoDBRepository<T,TIdType> :IMongoDBRepository<T> where T:IEntity<TIdType>
     {

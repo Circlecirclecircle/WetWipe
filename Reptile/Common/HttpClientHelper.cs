@@ -9,18 +9,32 @@ namespace Common
 {
     public class HttpClientHelper : IHttpHelper
     {
+        private HttpClient _HttpClient = new HttpClient();
+
+        private const int _RedirectMaxCount = 20;
+
         public string GetRedirectUrl(string url)
         {
-            throw new NotImplementedException();
+            HttpResponseMessage responseMessage = _HttpClient.GetAsync(url).Result;
+
+            if(responseMessage.StatusCode!=HttpStatusCode.Redirect)
+            {
+                return null;
+            }
+
+            return responseMessage.Headers.Location.ToString();
         }
 
         public string Request(string url)
         {
+            return Request(url,null);
+        }
+
+        public string Request(string url,int? loopCount=null)
+        {
             string result = null;
 
-            HttpClient httpClient = new HttpClient();
-
-            HttpResponseMessage responseMessage = httpClient.GetAsync(url).Result;
+            HttpResponseMessage responseMessage = _HttpClient.GetAsync(url).Result;
 
             switch(responseMessage.StatusCode)
             {
@@ -28,11 +42,18 @@ namespace Common
                     result = responseMessage.Content.ReadAsStringAsync().Result;
                     break;
                 case HttpStatusCode.Redirect:
-
-                    
-
+                    if (loopCount == null)
+                        result=Request(responseMessage.Headers.Location.ToString(),_RedirectMaxCount);
+                    else if(loopCount>0)
+                    {
+                        result = Request(responseMessage.Headers.Location.ToString(), loopCount - 1);
+                    }
                     break;
+                default:
+                    throw new Exception($"请求错误:{responseMessage.StatusCode} 详细内容:{responseMessage.Content.ReadAsStringAsync().Result}");
             }
+
+            return result;
         }
     }
 }

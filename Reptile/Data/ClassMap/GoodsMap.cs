@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Data.ClassMap
+namespace MongoData.ClassMap
 {
     internal class GoodsMap:IClassMap
     {

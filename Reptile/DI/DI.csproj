@@ -11,7 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj" />
     <ProjectReference Include="..\Core\Core.csproj" />
-    <ProjectReference Include="..\Data\Data.csproj" />
+    <ProjectReference Include="..\Data\MongoData.csproj" />
   </ItemGroup>
 
 </Project>

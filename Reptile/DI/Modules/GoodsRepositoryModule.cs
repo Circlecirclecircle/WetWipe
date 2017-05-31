@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Ninject.Modules;
 using Core.Repositories;
-using Data.MongoDBRepositories;
+using MongoData.MongoDBRepositories;
 
 namespace DI.Modules
 {
