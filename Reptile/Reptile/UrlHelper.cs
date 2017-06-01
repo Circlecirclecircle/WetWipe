@@ -23,7 +23,7 @@ namespace Reptile
         /// <param name="itemId">商品Id</param>
         /// <param name="sellerId">卖家Id</param>
         /// <returns></returns>
-        public static string GetDetailUrl(int itemId,int sellerId)
+        public static string GetDetailUrl(long itemId,long sellerId)
         {
             return string.Format(_DetailUrl,itemId,sellerId);
         }
